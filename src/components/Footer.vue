@@ -56,8 +56,8 @@
 
       <!-- Akun -->
       <div>
-        <a
-          href="#"
+        <router-link
+          :to="{ name: 'login' }"
           class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center"
         >
           <img
@@ -68,7 +68,7 @@
             height="25"
           />
           <span class="block text-xs">Akun</span>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
