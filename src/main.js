@@ -22,10 +22,19 @@ import router from "./router";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+/**
+ * Import Pinia
+ */
+import { createPinia } from "pinia";
+
 // Create App Vue
 const app = createApp(App);
+
+// Create Pinia
+const pinia = createPinia();
 
 app.use(mixins);
 app.use(router);
 app.use(Toast);
+app.use(pinia);
 app.mount("#app");
