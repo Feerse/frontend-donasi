@@ -74,8 +74,4 @@
   </div>
 </template>
 
-<script setup>
-  export default {
-    name: "FooterComponent",
-  };
-</script>
+<script setup></script>

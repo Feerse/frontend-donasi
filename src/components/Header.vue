@@ -26,8 +26,4 @@
   </header>
 </template>
 
-<script setup>
-  export default {
-    name: "HeaderComponent",
-  };
-</script>
+<script setup></script>
