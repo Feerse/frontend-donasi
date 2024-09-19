@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Api = axios.create({
   // Default endpoint API
-  baseURL: "http;//localhost:8000/api", // <-- Alamat baseURL dari project Laravel (backend-donasi)
+  baseURL: "http://localhost:8000/api", // <-- Alamat baseURL dari project Laravel (backend-donasi)
 });
 
 export default Api;
