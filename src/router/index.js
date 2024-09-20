@@ -6,6 +6,7 @@
 
 // Import vue router
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
 // Definisikan sebuah rute
 const routes = [
@@ -19,12 +20,35 @@ const routes = [
     name: "login",
     component: () => import("../views/auth/Login.vue"),
   },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: () => import("../views/dashboard/Index.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 // Buat router
 const router = createRouter({
   history: createWebHistory(),
   routes, // <-- routes
+});
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // Cek nilai dari getters `isLoggedIn` di module auth
+    if (authStore.isLoggedIn) {
+      next();
+      return;
+    }
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;

@@ -44,6 +44,28 @@ export const useAuthStore = defineStore("auth", {
         throw error.response.data;
       }
     },
+
+    async getUser() {
+      const token = localStorage.getItem("token");
+
+      // Set authorization header
+      Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      try {
+        const response = await Api.get("/user");
+
+        // Update user in state
+        this.user = response.data;
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+      }
+    },
   },
-  getters: {},
+  getters: {
+    // Getter for current user
+    currentUser: (state) => state.user,
+
+    // Check if logged in
+    isLoggedIn: (state) => !!state.token, // <-- Jika ada token, maka hasilnya true
+  },
 });
