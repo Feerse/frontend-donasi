@@ -55,8 +55,8 @@
           </div>
         </a>
 
-        <a href="#">
-          <div
+        <a @click="logout" style="cursor: pointer"
+          ><div
             class="grid grid-cols-5 gap-4 bg-gray-300 p-3 rounded-md shadow-sm mb-3"
           >
             <div class="col-span-5">
@@ -72,9 +72,12 @@
 <script setup>
   import { computed, onMounted } from "vue";
   import { useAuthStore } from "../../stores/auth";
+  import { useRouter } from "vue-router";
+  import { useToast } from "vue-toastification";
 
-  // Store Pinia
   const authStore = useAuthStore();
+  const router = useRouter();
+  const toast = useToast();
 
   // Mounted
   onMounted(() => {
@@ -84,4 +87,15 @@
 
   // Data user login
   const user = computed(() => authStore.user);
+
+  function logout() {
+    // Panggil action "logout" di dalam Pinia store
+    authStore.logout().then(() => {
+      // Jika berhasil, diarahkan ke route login
+      router.push({
+        name: "login",
+      });
+      toast.success("Logout Berhasil!");
+    });
+  }
 </script>

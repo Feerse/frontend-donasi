@@ -9,6 +9,13 @@ export const useAuthStore = defineStore("auth", {
     // Menggunakan `localStorage` untuk menyimpan data user yang sedang login
     user: JSON.parse(localStorage.getItem("user")) || {},
   }),
+  getters: {
+    // Getter for current user
+    currentUser: (state) => state.user,
+
+    // Check if logged in
+    isLoggedIn: (state) => !!state.token, // <-- Jika ada token, maka hasilnya true
+  },
   actions: {
     async register(user) {
       try {
@@ -60,12 +67,20 @@ export const useAuthStore = defineStore("auth", {
         console.error("Error fetching user data: ", error);
       }
     },
-  },
-  getters: {
-    // Getter for current user
-    currentUser: (state) => state.user,
 
-    // Check if logged in
-    isLoggedIn: (state) => !!state.token, // <-- Jika ada token, maka hasilnya true
+    async logout() {
+      this.token = "";
+      this.user = {};
+
+      // Remove value dari `localStorage` / Set data-nya menjadi 0
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      // Delete header axios
+      delete Api.defaults.headers.common["Authorization"];
+
+      // Resolve dengan async
+      return Promise.resolve();
+    },
   },
 });
