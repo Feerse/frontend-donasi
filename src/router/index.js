@@ -28,6 +28,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/donation",
+    name: "donation.index",
+    component: () => import("../views/donation/Index.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 // Buat router

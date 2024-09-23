@@ -22,7 +22,8 @@
 
       <!-- Donasi Saya -->
       <div>
-        <a
+        <router-link
+          :to="{ name: 'donation.index' }"
           href="#"
           class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center"
         >
@@ -34,7 +35,7 @@
             height="25"
           />
           <span class="block text-xs">Donasi Saya</span>
-        </a>
+        </router-link>
       </div>
 
       <!-- Campaign -->
