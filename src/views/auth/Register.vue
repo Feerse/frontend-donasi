@@ -55,7 +55,7 @@
 
           <div>
             <button
-              class="bg-gray-700 py-1 px-3 text-white rounded-md shadow-md text-xl inline-block w-full focus:outline-none focus:bg-gray-900"
+              class="bg-gray-700 py-1 px-3 mt-2 text-white rounded-md shadow-md text-xl inline-block w-full focus:outline-none focus:bg-gray-900"
             >
               Daftar
             </button>
@@ -101,10 +101,10 @@
   // Fungsi ini di jalankan ketika form di submit
   function register() {
     // Define variable
-    let name = user.name;
-    let email = user.email;
-    let password = user.password;
-    let password_confirmation = user.password_confirmation;
+    const name = user.name;
+    const email = user.email;
+    const password = user.password;
+    const password_confirmation = user.password_confirmation;
 
     // Panggil actions "register" dari module "auth"
     authStore
