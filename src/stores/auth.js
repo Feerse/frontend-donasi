@@ -52,6 +52,35 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
+    async login(user) {
+      try {
+        const response = await Api.post("/login", {
+          // Data yang dikirim ke server
+          email: user.email,
+          password: user.password,
+        });
+        // Define variable dengan isi hasil response dari server
+        const token = response.data.token;
+        const userData = response.data.data;
+
+        // Simpan token dan data user ke localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Set header default axios
+        Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        // Update state
+        this.token = token;
+        this.user = userData;
+
+        return response;
+      } catch (error) {
+        localStorage.removeItem("token");
+        throw error.response.data;
+      }
+    },
+
     async getUser() {
       const token = localStorage.getItem("token");
 
