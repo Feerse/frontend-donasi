@@ -121,7 +121,7 @@
 
   // Mengakses state dari `donationStore`
   const donations = computed(() => donationStore.donations);
-  const nextExists = computed(() => donationStore.nextExists);
+  const nextExists = computed(() => donationStore.nextExist);
   const nextPage = computed(() => donationStore.nextPage);
 
   function loadMore() {
