@@ -21,5 +21,20 @@ export const useProfileStore = defineStore("profile", {
         console.log(error);
       }
     },
+
+    async updateProfile(formData) {
+      try {
+        const token = localStorage.getItem("token");
+        Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        const response = await Api.post("/profile", formData);
+
+        this.profile = response.data.data;
+
+        return response;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
   },
 });

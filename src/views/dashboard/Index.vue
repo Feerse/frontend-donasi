@@ -6,7 +6,9 @@
           <div class="col-span-1 md:col-span-2">
             <img
               :src="user.avatar"
-              class="rounded-full w-30 h-30"
+              class="rounded-full"
+              width="112px"
+              height="112px"
               alt="Avatar"
             />
           </div>
