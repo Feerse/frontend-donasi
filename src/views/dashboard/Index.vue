@@ -47,7 +47,7 @@
           </div>
         </router-link>
 
-        <a href="#">
+        <router-link :to="{ name: 'profile.password' }">
           <div
             class="grid grid-cols-5 gap-4 bg-gray-300 p-3 rounded-md shadow-sm mb-3"
           >
@@ -55,7 +55,7 @@
               <i class="fa fa-key" aria-hidden="true"></i> Ubah Password
             </div>
           </div>
-        </a>
+        </router-link>
 
         <a @click="logout" style="cursor: pointer"
           ><div

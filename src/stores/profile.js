@@ -36,5 +36,23 @@ export const useProfileStore = defineStore("profile", {
         throw error.response.data;
       }
     },
+
+    async updatePassword(user) {
+      try {
+        const token = localStorage.getItem("token");
+        Api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        const response = await Api.post("/profile/password", {
+          password: user.password,
+          password_confirmation: user.password_confirmation,
+        });
+
+        this.profile = response.data.data;
+
+        return response;
+      } catch (error) {
+        throw error.response.data;
+      }
+    },
   },
 });

@@ -44,6 +44,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/profile/password",
+    name: "profile.password",
+    component: () => import("../views/profile/Password.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 // Buat router
