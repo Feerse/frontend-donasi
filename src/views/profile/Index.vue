@@ -84,9 +84,6 @@
   // State untuk gambar avatar
   const imageAvatar = ref(null);
 
-  // Validation state
-  const validation = ref([]);
-
   // Get file avatar onChange
   function onFileChange(e) {
     // Get image
@@ -102,24 +99,22 @@
     }
   }
 
-  function updateProfile() {
-    const formData = new FormData();
-
-    formData.append("avatar", imageAvatar.value);
-    formData.append("name", profile.value.name);
-
+  async function updateProfile() {
     try {
-      profileStore.updateProfile(formData);
+      const formData = new FormData();
+
+      formData.append("avatar", imageAvatar.value);
+      formData.append("name", profile.value.name);
+
+      await profileStore.updateProfile(formData);
 
       router.push({ name: "dashboard" });
       toast.success("Profile Berhasil Diperbarui!");
 
       imageAvatar.value = null;
     } catch (error) {
-      validation.value = error;
-
-      if (validation.value.name) {
-        toast.error(`${validation.value.name[0]}`);
+      if (error.name) {
+        toast.error(`${error.name[0]}`);
       }
     }
   }

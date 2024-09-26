@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-  import { ref, reactive, onMounted } from "vue";
+  import { reactive, onMounted } from "vue";
   import { useRouter } from "vue-router";
   import { useToast } from "vue-toastification";
   import { useAuthStore } from "../../stores/auth";
@@ -56,38 +56,32 @@
     password: "",
   });
 
-  const validation = ref([]);
   const authStore = useAuthStore();
   const router = useRouter();
   const toast = useToast();
 
-  function login() {
-    // Define variable
-    const email = user.email;
-    const password = user.password;
+  async function login() {
+    try {
+      // Define variable
+      const email = user.email;
+      const password = user.password;
 
-    authStore
-      .login({ email, password })
-      .then(() => {
-        // Redirect ke dashboard
-        router.push({ name: "dashboard" });
-        toast.success("Login Berhasil!");
-      })
-      .catch((error) => {
-        // Set pesan validasi
-        validation.value = error;
-
-        if (validation.value.email) {
-          toast.error(`${validation.value.email[0]}`);
-        }
-        if (validation.value.password) {
-          toast.error(`${validation.value.password[0]}`);
-        }
-        // Show login failed
-        if (validation.value.message) {
-          toast.error(`${validation.value.message}`);
-        }
-      });
+      await authStore.login({ email, password });
+      // Redirect ke dashboard
+      router.push({ name: "dashboard" });
+      toast.success("Login Berhasil!");
+    } catch (error) {
+      if (error.email) {
+        toast.error(`${error.email[0]}`);
+      }
+      if (error.password) {
+        toast.error(`${error.password[0]}`);
+      }
+      // Show login failed
+      if (error.message) {
+        toast.error(`${error.message}`);
+      }
+    }
   }
 
   onMounted(() => {

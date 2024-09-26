@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-  import { ref, reactive } from "vue";
+  import { reactive } from "vue";
   import { useAuthStore } from "../../stores/auth";
   import { useRouter } from "vue-router";
   import { useToast } from "vue-toastification";
@@ -86,9 +86,6 @@
     password_confirmation: "",
   });
 
-  // Validation state
-  const validation = ref([]);
-
   // Use auth store pinia
   const authStore = useAuthStore();
 
@@ -99,40 +96,35 @@
   const toast = useToast();
 
   // Fungsi ini di jalankan ketika form di submit
-  function register() {
-    // Define variable
-    const name = user.name;
-    const email = user.email;
-    const password = user.password;
-    const password_confirmation = user.password_confirmation;
+  async function register() {
+    try {
+      // Define variable
+      const name = user.name;
+      const email = user.email;
+      const password = user.password;
+      const password_confirmation = user.password_confirmation;
 
-    // Panggil actions "register" dari module "auth"
-    authStore
-      .register({
+      // Panggil actions "register" dari module "auth"
+      await authStore.register({
         name,
         email,
         password,
         password_confirmation,
-      })
-      // Kondisi jika berhasil register
-      .then(() => {
-        // Redirect ke dashboard
-        router.push({ name: "dashboard" });
-        toast.success("Register Berhasil!");
-      })
-      .catch((error) => {
-        // Jika gagal, tampilkan pesan error validasi
-        validation.value = error;
-
-        if (validation.value.name) {
-          toast.error(`${validation.value.name[0]}`);
-        }
-        if (validation.value.email) {
-          toast.error(`${validation.value.email[0]}`);
-        }
-        if (validation.value.password) {
-          toast.error(`${validation.value.password[0]}`);
-        }
       });
+
+      // Redirect ke dashboard
+      router.push({ name: "dashboard" });
+      toast.success("Register Berhasil!");
+    } catch (error) {
+      if (error.name) {
+        toast.error(`${error.name[0]}`);
+      }
+      if (error.email) {
+        toast.error(`${error.email[0]}`);
+      }
+      if (error.password) {
+        toast.error(`${error.password[0]}`);
+      }
+    }
   }
 </script>

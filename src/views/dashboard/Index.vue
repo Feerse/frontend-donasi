@@ -90,14 +90,18 @@
   // Data user login
   const user = computed(() => authStore.user);
 
-  function logout() {
-    // Panggil action "logout" di dalam Pinia store
-    authStore.logout().then(() => {
+  async function logout() {
+    try {
+      // Panggil action "logout" di dalam Pinia store
+      await authStore.logout();
       // Jika berhasil, diarahkan ke route login
       router.push({
         name: "login",
       });
       toast.success("Logout Berhasil!");
-    });
+    } catch (error) {
+      console.log(error);
+      toast.error("Logout Gagal!");
+    }
   }
 </script>
