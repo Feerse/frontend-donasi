@@ -29,11 +29,13 @@
 
   const sliderStore = useSliderStore();
 
+  // Jalankan action `getSlider()` dari store `slider`
   onMounted(() => {
     sliderStore.getSlider();
   });
 
-  const sliders = computed(() => sliderStore.slider.sliders);
+  // Get data state `sliders` dari store `slider`
+  const sliders = computed(() => sliderStore.sliders);
 </script>
 
 <style scoped>
