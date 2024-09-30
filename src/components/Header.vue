@@ -6,13 +6,13 @@
         <div
           class="col-span-2 bg-white rounded-full h-10 w-10 p-1 mr-3 shadow-sm"
         >
-          <a href="#">
+          <router-link :to="{ name: 'home' }">
             <img
               src="../assets/images/muslim.png"
               alt="muslim"
               class="inline-block"
             />
-          </a>
+          </router-link>
         </div>
         <div class="col-span-8">
           <input
