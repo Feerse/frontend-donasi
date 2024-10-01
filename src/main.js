@@ -33,7 +33,7 @@ const app = createApp(App);
 // Create Pinia
 const pinia = createPinia();
 
-app.use(mixins);
+app.mixin(mixins);
 app.use(router);
 app.use(Toast);
 app.use(pinia);
