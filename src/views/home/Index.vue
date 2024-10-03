@@ -2,7 +2,9 @@
 	<div class="pb-20 pt-20">
 		<div class="container mx-auto grid grid-cols-1 p-3 sm:w-full md:w-5/12">
 			<!-- Slider -->
-			<div class="grid grid-cols-1 bg-white rounded shadow-md p-1 text-sm">
+			<div
+				class="grid grid-cols-1 bg-white rounded shadow-md p-1 text-sm"
+			>
 				<Slider />
 			</div>
 
@@ -29,16 +31,25 @@
 								<div
 									class="w-full pt-6 p-5 md:p-3 text-center md:text-left space-y-4"
 								>
-									<a href="#">
+									<router-link
+										:to="{
+											name: 'campaign.show',
+											params: { slug: campaign.slug },
+										}"
+									>
 										<p class="text-sm font-semibold">
 											{{ campaign.title }}
 										</p>
-									</a>
+									</router-link>
 									<div class="font-medium">
 										<div class="mt-3 text-gray-500 text-xs">
 											{{ campaign.user.name }}
 										</div>
-										<div v-if="campaign.sum_donation.length > 0">
+										<div
+											v-if="
+												campaign.sum_donation.length > 0
+											"
+										>
 											<div
 												v-for="donation in campaign.sum_donation"
 												:key="donation"
@@ -60,14 +71,26 @@
 													</div>
 												</div>
 
-												<p class="text-xs text-gray-500">
-													<span class="font-bold text-blue-400"
-														>Rp. {{ formatPrice(donation.total) }}</span
+												<p
+													class="text-xs text-gray-500"
+												>
+													<span
+														class="font-bold text-blue-400"
+														>Rp.
+														{{
+															formatPrice(
+																donation.total
+															)
+														}}</span
 													>
 													terkumpul dari
 													<span class="font-bold"
 														>Rp.
-														{{ formatPrice(campaign.target_donation) }}</span
+														{{
+															formatPrice(
+																campaign.target_donation
+															)
+														}}</span
 													>
 												</p>
 											</div>
@@ -80,7 +103,10 @@
 													<div
 														:style="{
 															width:
-																percentage(0, campaign.target_donation) + '%',
+																percentage(
+																	0,
+																	campaign.target_donation
+																) + '%',
 														}"
 														class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
 													></div>
@@ -88,16 +114,26 @@
 											</div>
 
 											<p class="text-xs text-gray-500">
-												<span class="font-bold text-blue-400">Rp. 0</span>
+												<span
+													class="font-bold text-blue-400"
+													>Rp. 0</span
+												>
 												terkumpul dari
 												<span class="font-bold"
-													>Rp. {{ formatPrice(campaign.target_donation) }}</span
+													>Rp.
+													{{
+														formatPrice(
+															campaign.target_donation
+														)
+													}}</span
 												>
 											</p>
 										</div>
 										<div class="mt-3 text-xs">
-											<strong>{{ countDay(campaign.max_date) }}</strong> hari
-											lagi
+											<strong>{{
+												countDay(campaign.max_date)
+											}}</strong>
+											hari lagi
 										</div>
 									</div>
 								</div>

@@ -68,6 +68,16 @@ const routes = [
 		name: "category.show",
 		component: () => import("../views/category/Show.vue"),
 	},
+	{
+		path: "/campaign",
+		name: "campaign.index",
+		component: () => import("../views/campaign/Index.vue"),
+	},
+	{
+		path: "/campaign/:slug",
+		name: "campaign.show",
+		component: () => import("../views/campaign/Show.vue"),
+	},
 ];
 
 // Buat router

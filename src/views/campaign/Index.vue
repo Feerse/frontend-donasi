@@ -1,33 +1,31 @@
 <template>
 	<div class="pb-20 pt-20">
-		<div class="container mx-auto grid grid-cols-1 p-5 sm:w-full md:w-5/12">
-			<div v-if="campaignCategory.length > 0">
-				<h3>
-					<i class="fa fa-list-ul"></i> KATEGORI
-					<strong>{{ category.name.toUpperCase() }}</strong>
-				</h3>
+		<div class="container mx-auto grid grid-cols-1 p-3 sm:w-full md:w-5/12">
+			<div v-if="campaigns.length > 0">
 				<div
 					class="mt-5 grid grid-cols-4 gap-4"
-					v-for="campaign in campaignCategory"
+					v-for="campaign in campaigns"
 					:key="campaign.id"
 				>
 					<div class="col-span-4">
 						<div class="bg-white rounded-md shadow-md p-2">
 							<div class="md:flex rounded-xl md:p-0">
 								<img
+									class="w-full h-34 md:w-56 rounded object-cover"
 									:src="campaign.image"
-									alt="Campaign"
-									class="w-full h-34 md:w-56 rounded object cover"
+									width="384"
+									height="512"
 								/>
 								<div
-									class="pt-6 p-5 md:p-3 text-center md:text-left space-y-4"
+									class="w-full pt-6 p-5 md:p-3 text-center md:text-left space-y-4"
 								>
 									<router-link
 										:to="{
 											name: 'campaign.show',
 											params: { slug: campaign.slug },
 										}"
-										><p class="text-sm font-semibold">
+									>
+										<p class="text-sm font-semibold">
 											{{ campaign.title }}
 										</p>
 									</router-link>
@@ -70,14 +68,17 @@
 															formatPrice(
 																donation.total
 															)
+														}}
+													</span>
+													terkumpul dari
+													<span class="font-bold"
+														>Rp.
+														{{
+															formatPrice(
+																campaign.target_donation
+															)
 														}}</span
 													>
-													terkumpul dari
-													<span class="font-bold">{{
-														formatPrice(
-															campaign.target_donation
-														)
-													}}</span>
 												</p>
 											</div>
 										</div>
@@ -98,6 +99,7 @@
 													></div>
 												</div>
 											</div>
+
 											<p class="text-xs text-gray-500">
 												<span
 													class="font-bold text-blue-400"
@@ -128,31 +130,41 @@
 				</div>
 			</div>
 			<div v-else>
-				<div class="mb-3 bg-red-500 text-white p-4 rounded-md">
-					Data Campaign Berdasarkan Kategori
-					<strong>{{ category.name }}</strong> Belum Tersedia!
+				<div
+					v-for="index in 2"
+					:key="index"
+					class="grid grid-cols-1 bg-white rounded shadow-md p-3 text-sm mt-4 mb-4"
+				>
+					<FacebookLoader class="h-24" />
 				</div>
 			</div>
+		</div>
+		<div class="text-center mt-4 mb-4" v-show="nextExists">
+			<a
+				@click="loadMore"
+				class="bg-gray-700 text-white p-2 px-3 rounded-md shadow-md focus:outline-none focus:bg-gray-900 cursor-pointer"
+				>LIHAT SEMUA <i class="fa fa-long-arrow-alt-right"></i
+			></a>
 		</div>
 	</div>
 </template>
 
 <script setup>
-	import { onMounted, computed } from "vue";
-	import { useCategoryStore } from "../../stores/category";
-	import { useRoute } from "vue-router";
+	import { computed, onMounted } from "vue";
+	import { useCampaignStore } from "../../stores/campaign";
+	import { FacebookLoader } from "vue-content-loader";
 
-	const categoryStore = useCategoryStore();
-	const route = useRoute();
+	const campaignStore = useCampaignStore();
 
 	onMounted(() => {
-		// Mengirim parameter berupa slug category
-		categoryStore.getDetailCategory(route.params.slug);
+		campaignStore.getCampaign();
 	});
 
-	// Get data state `category` dari store `category`
-	const category = computed(() => categoryStore.category);
+	const campaigns = computed(() => campaignStore.campaigns);
+	const nextExists = computed(() => campaignStore.nextExists);
+	const nextPage = computed(() => campaignStore.nextPage);
 
-	// Get data state `campaignCategory` dari store `category`
-	const campaignCategory = computed(() => categoryStore.campaignCategory);
+	function loadMore() {
+		campaignStore.getLoadMore(nextPage.value);
+	}
 </script>
