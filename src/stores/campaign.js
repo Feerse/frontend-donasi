@@ -9,6 +9,18 @@ export const useCampaignStore = defineStore("campaign", {
 		// Load More
 		nextExists: false,
 		nextPage: 0,
+
+		// Detail campaign
+		campaign: {},
+
+		// Detail user
+		user: {},
+
+		// Total donation
+		sumDonation: [],
+
+		// Data donations
+		donations: [],
 	}),
 	getters: {
 		//
@@ -21,7 +33,10 @@ export const useCampaignStore = defineStore("campaign", {
 				this.campaigns = response.data.data.data;
 
 				// Kondisi apakah halaman saat ini kurang dari halaman terakhir
-				if (response.data.data.current_page < response.data.data.last_page) {
+				if (
+					response.data.data.current_page <
+					response.data.data.last_page
+				) {
 					this.nextExists = true;
 					this.nextPage = response.data.data.current_page + 1;
 				} else {
@@ -42,12 +57,28 @@ export const useCampaignStore = defineStore("campaign", {
 					this.campaigns.push(row);
 				});
 
-				if (response.data.data.current_page < response.data.data.last_page) {
+				if (
+					response.data.data.current_page <
+					response.data.data.last_page
+				) {
 					this.nextExists = true;
 					this.nextPage = response.data.data.current_page + 1;
 				} else {
 					this.nextExists = false;
 				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		async getDetailCampaign(slug) {
+			try {
+				const response = await Api.get(`/campaign/${slug}`);
+
+				this.campaign = response.data.data;
+				this.user = response.data.data.user;
+				this.sumDonation = response.data.data.sum_donation;
+				this.donations = response.data.donations;
 			} catch (error) {
 				console.log(error);
 			}
