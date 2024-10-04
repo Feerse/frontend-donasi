@@ -78,6 +78,14 @@ const routes = [
 		name: "campaign.show",
 		component: () => import("../views/campaign/Show.vue"),
 	},
+	{
+		path: "/donation/create/:slug",
+		name: "donation.create",
+		component: () => import("../views/donation/Create.vue"),
+		meta: {
+			requiresAuth: true,
+		},
+	},
 ];
 
 // Buat router
