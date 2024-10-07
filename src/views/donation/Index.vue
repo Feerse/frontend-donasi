@@ -53,13 +53,15 @@
 									</figcaption>
 									<div v-if="donation.status == 'pending'">
 										<button
+											@click="
+												payment(donation.snap_token)
+											"
 											class="w-full text-white bg-green-600 rounded shadow-sm text-xs py-1 px-2 focus:outline-none"
 										>
 											BAYAR SEKARANG
 										</button>
 									</div>
 								</div>
-								<!-- TODO: div -->
 								<div
 									class="ml-auto text-sm text-gray-500 underline"
 								>
@@ -123,8 +125,10 @@
 <script setup>
 	import { computed, onMounted } from "vue";
 	import { useDonationStore } from "../../stores/donation";
+	import { useRouter } from "vue-router";
 
 	const donationStore = useDonationStore();
+	const router = useRouter();
 
 	// Menjalankan action `getDonation()` saat komponen di-mount
 	onMounted(() => {
@@ -138,5 +142,19 @@
 
 	function loadMore() {
 		donationStore.getLoadMore(nextPage.value);
+	}
+
+	function payment(snap_token) {
+		window.snap.pay(snap_token, {
+			onSuccess: function () {
+				router.push({ name: "donation.index" });
+			},
+			onPending: function () {
+				router.push({ name: "donation.index" });
+			},
+			onError: function () {
+				router.push({ name: "donation.index" });
+			},
+		});
 	}
 </script>
