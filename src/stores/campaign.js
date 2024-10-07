@@ -83,5 +83,21 @@ export const useCampaignStore = defineStore("campaign", {
 				console.log(error);
 			}
 		},
+
+		async searchCampaign(querySearch = "") {
+			try {
+				const token = localStorage.getItem("token");
+
+				Api.defaults.headers.common[
+					"Authorization"
+				] = `Bearer ${token}`;
+
+				const response = await Api.get(`/campaign?q=${querySearch}`);
+
+				this.campaigns = response.data.data.data;
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 });

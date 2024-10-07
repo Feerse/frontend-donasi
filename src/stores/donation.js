@@ -26,7 +26,6 @@ export const useDonationStore = defineStore("donation", {
 
 				const response = await Api.get("/donation");
 
-				console.log(response.data.data.data);
 				this.donations = response.data.data.data;
 
 				if (
